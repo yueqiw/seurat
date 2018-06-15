@@ -44,8 +44,11 @@ NULL
 #' @param temp.file.location Directory where intermediate files will be written.
 #' Specify the ABSOLUTE path.
 #' @param edge.file.name Edge file to use as input for modularity optimizer jar.
-#' @importFrom igraph plot.igraph graph.adjlist
+#'
 #' @importFrom Matrix sparseMatrix
+#' @importFrom methods .hasSlot
+#' @importFrom igraph plot.igraph graph.adjlist
+#'
 #' @return Returns a Seurat object and optionally the SNN matrix,
 #'         object@@ident has been updated with new cluster info
 #'
@@ -374,7 +377,7 @@ ClassifyCells <- function(
   new.data <- rbind(new.data, data.to.add)
   new.data <- new.data[features, ]
   new.data <- as.matrix(x = t(x = new.data))
-  print("Running Classifier ...")
+  message("Running Classifier ...")
   prediction <- predict(classifier, new.data)
   new.classes <- prediction$predictions
   return(new.classes)
@@ -425,7 +428,7 @@ BuildRFClassifier <- function(
   )
   training.data$class <- factor(x = training.classes)
   if (verbose) {
-    print("Training Classifier ...")
+    message("Training Classifier ...")
   }
   classifier <- ranger(
     data = training.data,
@@ -459,6 +462,7 @@ BuildRFClassifier <- function(
 #' @param assay.type Type of data to normalize for (default is RNA), but can be changed for multimodal analyses.
 #' @param \dots Additional parameters passed to kmeans (or tkmeans)
 #'
+#' @importFrom methods new
 #' @importFrom stats kmeans
 #' @importFrom tclust tkmeans
 #'
@@ -507,9 +511,7 @@ DoKMeans <- function(
     set.seed(seed = k.seed)
     kmeans.obj <- kmeans(x = kmeans.data, centers = k.genes, ...)
   }
-
   names(x = kmeans.obj$cluster) <- genes.use
-
   #if we are going to k-means cluster cells in addition to genes
   kmeans.col <- c()
   if (k.cells > 0) {
