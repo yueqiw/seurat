@@ -8,10 +8,11 @@ DimPlot(object, reduction.use = "pca", dim.1 = 1, dim.2 = 2,
   cells.use = NULL, pt.size = 1, do.return = FALSE, do.bare = FALSE,
   cols.use = NULL, group.by = "ident", pt.shape = NULL,
   do.hover = FALSE, data.hover = "ident", do.identify = FALSE,
-  do.label = FALSE, label.size = 4, no.legend = FALSE, no.axes = FALSE,
-  dark.theme = FALSE, plot.order = NULL, cells.highlight = NULL,
-  plot.title = NULL, vector.friendly = FALSE, png.file = NULL,
-  png.arguments = c(10, 10, 100), ...)
+  do.label = FALSE, label.size = 4, no.legend = FALSE,
+  coord.fixed = FALSE, no.axes = FALSE, dark.theme = FALSE,
+  plot.order = NULL, cells.highlight = NULL, cols.highlight = "red",
+  sizes.highlight = 1, plot.title = NULL, vector.friendly = FALSE,
+  png.file = NULL, png.arguments = c(10, 10, 100), ...)
 }
 \arguments{
 \item{object}{Seurat object}
@@ -52,6 +53,8 @@ different shapes on cells.}
 
 \item{no.legend}{Setting to TRUE will remove the legend}
 
+\item{coord.fixed}{Use a fixed scale coordinate system (for spatial coordinates). Default is FALSE.}
+
 \item{no.axes}{Setting to TRUE will remove the axes}
 
 \item{dark.theme}{Use a dark theme for the plot}
@@ -60,7 +63,13 @@ different shapes on cells.}
 useful for crowded plots if points of interest are being buried. Provide
 either a full list of valid idents or a subset to be plotted last (on top).}
 
-\item{cells.highlight}{A character or numeric vector of cells to highlight. If set, colors selected cells red and other cells black (white if dark.theme = TRUE)}
+\item{cells.highlight}{A list of character or numeric vectors of cells to highlight. If only one group of cells desired, can simply
+pass a vector instead of a list. If set, colors selected cells to the color(s) in \code{cols.highlight} and other cells black
+(white if dark.theme = TRUE); will also resize to the size(s) passed to \code{sizes.highlight}}
+
+\item{cols.highlight}{A vector of colors to highlight the cells as; will repeat to the length groups in cells.highlight}
+
+\item{sizes.highlight}{Size of highlighted cells; will repeat to the length groups in cells.highlight}
 
 \item{plot.title}{Title for plot}
 

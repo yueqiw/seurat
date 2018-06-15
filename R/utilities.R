@@ -62,6 +62,7 @@ RemoveFromTable <- function(to.remove, data) {
 #' @return Returns a seurat object with data converted to sparse matrices.
 #'
 #' @import Matrix
+#' @importFrom methods as
 #'
 #' @export
 #'
@@ -96,6 +97,7 @@ MakeSparse <- function(object) {
 #' @return Returns a Seurat object compatible with latest changes
 #'
 #' @importFrom utils packageVersion
+#' @importFrom methods .hasSlot new slotNames as
 #'
 #' @export
 #'
@@ -601,7 +603,7 @@ AverageExpression <- function(
       data.all <- cbind(data.all, data.temp)
       colnames(x = data.all)[ncol(x = data.all)] <- j
       if (show.progress) {
-        print(paste0("Finished averaging ", assays.use[i], " for cluster ", j))
+        message(paste("Finished averaging", assays.use[i], "for cluster", j))
       }
       if(i == 1) {
         ident.new <- c(ident.new, as.character(x = ident.orig[temp.cells[1]]))
