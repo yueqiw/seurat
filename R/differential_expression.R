@@ -254,7 +254,7 @@ FindMarkers <- function(
       genes.use = genes.use,
       latent.vars = latent.vars,
       print.bar = print.bar,
-      min.cells = min.cells
+      min.cells = min.cells.gene
     )
   }
   if (test.use == "poisson") {
@@ -1051,7 +1051,7 @@ NegBinomRegDETest <- function(
   res <- as.data.frame(x = res)
   res$adj.pval <- p.adjust(p = res$pval, method='fdr')
   res$p_val <- res$pval
-  res <- res[order(res$pval, -abs(x = res$log.fc)), ]
+  res <- res[order(res$pval, -abs(x = res$log2.fc)), ]
   return(res)
 }
 
