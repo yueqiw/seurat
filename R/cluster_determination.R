@@ -1,6 +1,5 @@
 #' @include seurat.R
 NULL
-
 #' Cluster Determination
 #'
 #' Identify clusters of cells by a shared nearest neighbor (SNN) modularity
@@ -334,6 +333,7 @@ NumberClusters <- function(object) {
 #'
 #' @import Matrix
 #' @importFrom stats predict
+#' @importFrom ranger ranger
 #'
 #' @export
 #'
@@ -356,7 +356,6 @@ ClassifyCells <- function(
   new.data = NULL,
   ...
 ) {
-  PackageCheck('ranger')
   # build the classifier
   if (missing(classifier)){
     classifier <- BuildRFClassifier(
@@ -398,6 +397,7 @@ ClassifyCells <- function(
 #' @return Returns the random forest classifier
 #'
 #' @import Matrix
+#' @importFrom ranger ranger
 #'
 #' @export
 #'
@@ -414,7 +414,6 @@ BuildRFClassifier <- function(
   verbose = TRUE,
   ...
 ) {
-  PackageCheck('ranger')
   training.classes <- as.vector(x = training.classes)
   training.genes <- SetIfNull(
     x = training.genes,
@@ -431,7 +430,7 @@ BuildRFClassifier <- function(
   if (verbose) {
     message("Training Classifier ...")
   }
-  classifier <- ranger::ranger(
+  classifier <- ranger(
     data = training.data,
     dependent.variable.name = "class",
     classification = TRUE,
@@ -443,7 +442,7 @@ BuildRFClassifier <- function(
 
 #' K-Means Clustering
 #'
-#' Perform k-means clustering on both genes and single cells
+#' Perform k=means clustering on both genes and single cells
 #'
 #' K-means and heatmap are calculated on object@@scale.data
 #'
@@ -465,6 +464,7 @@ BuildRFClassifier <- function(
 #'
 #' @importFrom methods new
 #' @importFrom stats kmeans
+#' @importFrom tclust tkmeans
 #'
 #' @return Seurat object where the k-means results for genes is stored in
 #' object@@kmeans.obj[[1]], and the k-means results for cells is stored in
@@ -506,8 +506,7 @@ DoKMeans <- function(
   kmeans.data <- data.use[genes.use, cells.use]
   if (do.constrained) {
     set.seed(seed = k.seed)
-    PackageCheck('tclust')
-    kmeans.obj <- tclust::tkmeans(x = kmeans.data, k = k.genes, ...)
+    kmeans.obj <- tkmeans(x = kmeans.data, k = k.genes, ...)
   } else {
     set.seed(seed = k.seed)
     kmeans.obj <- kmeans(x = kmeans.data, centers = k.genes, ...)
