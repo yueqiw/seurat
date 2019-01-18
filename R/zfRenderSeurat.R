@@ -538,13 +538,9 @@ zf.insitu.ventral <- function(seuratObject, gene, label=TRUE, ...) {
   view3d(zoom = .75, userMatrix = rotMat, fov = 0)
 }
 
-# @importFrom gdata interleave
-#' @importFrom utils installed.packages
 #' @export
+#' @importFrom gdata interleave
 zf.insitu.side <- function(expressionMatrix, nonmirror = TRUE, mirror = TRUE) {
-  if (!'gdata' %in% rownames(x = installed.packages())) {
-    stop("Please install gdata")
-  }
   # Determine geometry
   tierBins <- 30 # 1 bin per cell tier.
   DVBins <- 64 # 1 bin every 5.625 degrees; compatible with our current 8-bin system.
@@ -645,7 +641,7 @@ zf.insitu.side <- function(expressionMatrix, nonmirror = TRUE, mirror = TRUE) {
     }
   }
   # Take the coordinates and reformat the lists to pass to RGL
-  quadX <- gdata::interleave(
+  quadX <- interleave(
     drawEmbryo$x1,
     drawEmbryo$x2,
     drawEmbryo$x3,
@@ -653,7 +649,7 @@ zf.insitu.side <- function(expressionMatrix, nonmirror = TRUE, mirror = TRUE) {
     drop = TRUE
   )
   dim(x = quadX) <- c(dim(x = quadX)[1] * dim(x = quadX)[2], 1)
-  quadY <- gdata::interleave(
+  quadY <- interleave(
     drawEmbryo$y1,
     drawEmbryo$y2,
     drawEmbryo$y3,
@@ -661,7 +657,7 @@ zf.insitu.side <- function(expressionMatrix, nonmirror = TRUE, mirror = TRUE) {
     drop = TRUE
   )
   dim(x = quadY) <- c(dim(x = quadY)[1] * dim(x = quadY)[2], 1)
-  quadZ <- gdata::interleave(
+  quadZ <- interleave(
     drawEmbryo$z1,
     drawEmbryo$z2,
     drawEmbryo$z3,

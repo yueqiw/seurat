@@ -5,8 +5,7 @@
 \title{Calculate smoothed expression values}
 \usage{
 AddSmoothedScore(object, genes.fit = NULL, dim.1 = 1, dim.2 = 2,
-  reduction.use = "tsne", k = 30, do.log = FALSE, do.print = FALSE,
-  nn.eps = 0)
+  reduction.use = "tsne", k = 30, do.log = FALSE, do.print = FALSE)
 }
 \arguments{
 \item{object}{Seurat object}
@@ -25,9 +24,6 @@ AddSmoothedScore(object, genes.fit = NULL, dim.1 = 1, dim.2 = 2,
 
 \item{do.print}{Print progress (output the name of each gene after it has
 been imputed).}
-
-\item{nn.eps}{Error bound when performing nearest neighbor seach using RANN;
-default of 0.0 implies exact nearest neighbor search}
 }
 \description{
 Smooths expression values across the k-nearest neighbors based on dimensional reduction
