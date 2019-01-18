@@ -32,7 +32,6 @@ Imports:
     fpc,
     ape,
     pbapply,
-    RANN,
     dplyr,
     RColorBrewer,
     MASS,
